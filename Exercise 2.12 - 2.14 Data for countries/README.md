@@ -1,3 +1,28 @@
+The true key is REACT_APP_API_KEY=f8b71551b541b53785744a98b16adacd
+REACT_APP_API_KEY='d335f0a9d7a97d6a0d923e1a5211050f' npm start
+
+NB: In some browsers (such as Firefox) weatherstack API sends an error response, which indicates that HTTPS encryption is not supported, although the request URL starts with http://. This issue can be fixed by completing the exercise using Chrome.
+
+NB: You need an api-key to use almost every weather service. Do not save the api-key to source control! Nor hardcode the api-key to your source code. Instead use an environment variable to save the key.
+
+Assuming the api-key is t0p53cr3t4p1k3yv4lu3, when the application is started like so:
+
+REACT_APP_API_KEY='t0p53cr3t4p1k3yv4lu3' npm start // For Linux/macOS Bash
+($env:REACT_APP_API_KEY='t0p53cr3t4p1k3yv4lu3') -and (npm start) // For Windows PowerShell
+set REACT_APP_API_KEY='t0p53cr3t4p1k3yv4lu3' && npm start // For Windows cmd.exe
+you can access the value of the key from the process.env object:
+
+const api_key = process.env.REACT_APP_API_KEY
+// variable api_key has now the value set in startup
+Note that if you created the application using npx create-react-app ...and you want to use a different name for your environment variable then the environment variable name must still begin with REACT_APP_. You can also use a .envfile rather than defining it on the command line each time by creating a file entitled '.env' in the root of the project and adding the following.
+
+# .env
+
+REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3
+Note that you will need to restart the server to apply the changes.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,3 +93,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+

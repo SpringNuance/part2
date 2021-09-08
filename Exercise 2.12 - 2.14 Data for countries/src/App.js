@@ -19,7 +19,7 @@ const Options = ({countries, setCountries}) => {
       )
   } else if (countries.length === 1){
       return (
-        <CountriesFull CountriesFull={countries[0]}/>
+        <CountriesFull country={countries[0]}/>
       )
   } else {
      return (
@@ -28,13 +28,13 @@ const Options = ({countries, setCountries}) => {
   }
 }
 
-
-const CountriesFull = ({CountriesFull}) => {
+const CountriesFull = ({country}) => {
   const [weather, setWeather] = useState([])
+
   useEffect(() => {
     const params = {
       access_key: process.env.REACT_APP_API_KEY,
-      query: CountriesFull.capital
+      query: country.capital
     }
 
     axios.get('http://api.weatherstack.com/current', {params})
@@ -47,27 +47,38 @@ const CountriesFull = ({CountriesFull}) => {
         console.log(error);
     })
   })
+  console.log('hey',weather)
 
-  const currentWeather = weather[0].current
-
-  return (
-    <div>
-      <h1>{CountriesFull.name}</h1>
-      <p>capital {CountriesFull.capital}</p>
-      <p>population {CountriesFull.population}</p>
-      <h2>Languages</h2>
-      <ul>
-        {CountriesFull.languages.map(lang => <li key = {lang.iso639_1}>{lang.name}</li>)}
-      </ul>
-      <img src={CountriesFull.flag} alt = "nation flag" width="300" height="200"></img>
-      <h2>Weather in {CountriesFull.capital}</h2>
+  const WeatherDisplay = ({weather, country}) => {
+    const currentWeather = weather[0].current
+    return (
+      <>
+      <h2>Weather in {country.capital}</h2>
       <p>temperature: {currentWeather.temperature}° Celcius</p>
       <img src={currentWeather.weather_icons[0]} alt="Weather icon"></img>
       <p>wind: {currentWeather.wind_speed} mph direction {currentWeather.wind_dir}</p>
-      
-    </div>
-  )
+      </>
+    )
+  }
+
+    return (
+      <div>
+        <h1>{country.name}</h1>
+        <p>capital: {country.capital}</p>
+        <p>population: {country.population}</p>
+        <h2>Spoken languages</h2>
+        <ul>
+          {country.languages.map(language => <li key={language.name}>{language.name}</li>)}
+        </ul>
+        <img src={country.flag} alt="Country flag" width = "300" height = "200"/>
+
+        <div>{weather.length > 0 ? (<WeatherDisplay weather = { weather} country = {country}/>) : (<div></div>)}</div>
+      </div>
+    )
+
 }
+
+
 
 const App = () => {
   const [countries, setCountries] = useState([])
@@ -137,12 +148,7 @@ const App = () => {
   const handleNoteChange = (event) => {
     console.log(event.target.value)
     setNewNote(event.target.value)
-  }
-
-  const notesToShow = showAll
-  ? notes
-  : notes.filter(note => note.important)
-
+  }        console.log(apiResponse)
   return (
     <div>
       <h1>Notes</h1>
